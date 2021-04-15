@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StaggerAnimation extends StatelessWidget {
@@ -13,9 +14,19 @@ class StaggerAnimation extends StatelessWidget {
         parent: controller,
         curve: Interval(0.0,0.150)
       )
+    ),
+    buttonZoomOut = Tween(
+      begin: 60.0,
+      end: 1000.0
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(0.5,1, curve: Curves.bounceOut)
+      )
     );
 
   final Animation<double> buttonSqueeze;
+  final Animation<double> buttonZoomOut;
 
   Widget _buildAnimation(BuildContext context, Widget child){
     return Padding(
@@ -24,7 +35,9 @@ class StaggerAnimation extends StatelessWidget {
           onTap: (){
             controller.forward();
           },
-          child: Container(
+          child:
+          buttonZoomOut.value <= 60 ?
+          Container(
             width: buttonSqueeze.value,
             height: 60,
             alignment: Alignment.center,
@@ -33,6 +46,14 @@ class StaggerAnimation extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(30))
             ),
             child: _buildInside(context),
+          ) : Container(
+            width: buttonZoomOut.value,
+            height: buttonZoomOut.value,
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(247, 64, 106, 1.0),
+                shape: buttonZoomOut.value < 500 ?
+                    BoxShape.circle : BoxShape.rectangle
+            ),
           ),
         ),
     );
