@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_animmated_app/screens/home/home_screen.dart';
 import 'package:my_animmated_app/screens/login/widgets/form_container.dart';
 import 'package:my_animmated_app/screens/login/widgets/sign_up_button.dart';
 import 'package:my_animmated_app/screens/login/widgets/stagger_animation.dart';
@@ -21,6 +22,14 @@ class _LoginScreenState extends State<LoginScreen>
       vsync: this,
       duration: Duration(seconds: 2)
     );
+    
+    _controller.addStatusListener((status) {
+      if(status == AnimationStatus.completed){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context)=> HomeScreen())
+        );
+      }
+    });
   }
 
 
